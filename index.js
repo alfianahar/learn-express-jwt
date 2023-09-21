@@ -1,11 +1,12 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
-const port = 3000;
+const port = 5000;
 
-// Secret key for JWT
-const secretKey = 'your-secret-key';
+const env = process.env
 
 // Sample user data (replace with a database in a production application)
 const users = [
@@ -38,7 +39,7 @@ app.post('/api/login', (req, res) => {
         return res.status(401).send('Invalid username or password.');
     }
 
-    const token = jwt.sign({ id: user.id, username: user.username }, secretKey, {
+    const token = jwt.sign({ id: user.id, username: user.username }, env.TOKEN_SECRET, {
         expiresIn: '1h',
     });
 

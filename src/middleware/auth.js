@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const secretKey = 'your-secret-key';
+
+const env = process.env
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
@@ -7,7 +8,7 @@ function authenticateToken(req, res, next) {
 
     if (!token) return res.status(401).send('Access denied. No token provided.');
 
-    jwt.verify(token, secretKey, (err, user) => {
+    jwt.verify(token, env.TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send('Invalid token.');
         req.user = user;
         next();
